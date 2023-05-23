@@ -1,0 +1,92 @@
+
+* {
+    -button-background-color: #284B63;
+    -text-color-bright: #FFFFFF;
+    -text-color-dark: #000000;
+    -accent-color-dark: #353535;
+    -accent-color-bright: #D9D9D9;
+}
+
+.color-box {
+    -fx-fill: -accent-color-dark;
+}
+
+.label {
+    -fx-font-family: "Verdana";
+    -fx-font-size: 14px;
+    -fx-pref-height: 40px;
+    -fx-font-weight: bold;
+}
+
+.label-title {
+    -fx-font-size: 20px;
+}
+
+#label-title-chats {
+    -fx-min-height: 70px;
+    -fx-max-height: 70px;
+}
+
+.textbox {
+    -fx-font-family: "Verdana";
+    -fx-font-size: 14px;
+    -fx-pref-height: 40px;
+}
+
+.button {
+    -fx-font-family: "Verdana";
+    -fx-font-size: 14px;
+    -fx-background-color: -button-background-color;
+    -fx-text-fill: -text-color-bright;
+    -fx-pref-width: 100%;
+    -fx-pref-height: 40px;
+}
+
+.button-chat {
+    -fx-background-color: -accent-color-bright;
+    -fx-min-height: 70px;
+    -fx-max-height: 70px;
+    -fx-text-fill: -text-color-dark;
+    -fx-alignment: center-left;
+    -fx-border-color: #363636;
+    -fx-border-width: 2px;
+    -fx-border-radius: 0px;
+}
+
+.button-critical {
+    -fx-background-color: darkred;
+}
+
+#chatTitleHbox {
+    -fx-alignment: center-left;
+    -fx-spacing: 100px;
+}
+
+#chatSelection {
+    -fx-background-color: -accent-color-bright;
+    -fx-min-width: 250px;
+    -fx-max-width: 350px;
+}
+
+#chatList {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+}
+
+#chatListCell {
+    -fx-background-color: -accent-color-bright;
+    -fx-control-inner-background: -button-background-color;
+    -fx-border-color: dimgrey;
+}
+
+#chatListCell:selected {
+    -fx-background-color: -button-background-color;
+    -fx-text-fill: black;
+}
+
+#chatListCell:hover {
+    -fx-background-color: -button-background-color;
+    -fx-text-fill: black;
+}

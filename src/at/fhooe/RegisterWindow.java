@@ -10,30 +10,47 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class RegisterWindow {
   private Stage stage;
   public RegisterWindow() {
     stage = new Stage();
     stage.setTitle("Chat-BPT");
     stage.setWidth(300);
-    stage.setHeight(600);
-
-    StackPane layout = new StackPane();
+    stage.setHeight(550);
 
     VBox vbox = new VBox(5);
     vbox.setPadding(new Insets(20));
     vbox.setAlignment(Pos.CENTER_LEFT);
 
     Label labelRegister = new Label("Registrieren");
-    labelRegister.setStyle("-fx-font-size: 20px;");
+    labelRegister.getStyleClass().addAll("label", "label-title");
+
     Label labelShortUserName = new Label("Kurzname");
+    labelShortUserName.getStyleClass().add("label");
+
     TextField textBoxShortUserName = new TextField();
+    textBoxShortUserName.getStyleClass().add("textbox");
+
     Label labelUserName = new Label("Benutzername");
+    labelUserName.getStyleClass().add("label");
+
     TextField textBoxUserName = new TextField();
+    textBoxUserName.getStyleClass().add("textbox");
+
     Label labelPassword = new Label("Passwort");
+    labelPassword.getStyleClass().add("label");
+
     TextField textBoxPassword = new TextField();
+    textBoxPassword.getStyleClass().add("textbox");
+
     Label labelPasswordRepeat = new Label("Passwort wiederholen");
+    labelPasswordRepeat.getStyleClass().add("label");
+
     TextField textBoxPasswordRepeat = new TextField();
+    textBoxPasswordRepeat.getStyleClass().add("textbox");
+
 
     Button btnRegister = new Button("Registrieren");
     btnRegister.prefWidthProperty().bind(stage.widthProperty());
@@ -57,9 +74,9 @@ public class RegisterWindow {
             textBoxPasswordRepeat,
             btnRegister
     );
-    layout.getChildren().add(vbox);
 
-    Scene scene = new Scene(layout);
+    Scene scene = new Scene(vbox);
+    scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
     stage.setScene(scene);
   }
 
