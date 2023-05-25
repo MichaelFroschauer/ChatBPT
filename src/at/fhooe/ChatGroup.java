@@ -1,25 +1,81 @@
 package at.fhooe;
+import javafx.collections.ObservableList;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ChatGroup {
   private String chatName;
   private boolean isPrivateChat;
-  private ArrayList<ChatMessage> chatMessages;
+  private ArrayList<ChatMessage> storedChatMessages;
+  private ArrayList<ChatMessage> newChatMessages;
+  private ObservableList<Member> groupMember;
+  private ObservableList<Member> bannedGroupMember;
   private ChatMockDataManager dataManager = ChatMockDataManager.getInstance();
+  private String adminShortUserName;
+
 
   ChatGroup(String chatName, boolean isPrivateChat) {
     this.chatName = chatName;
     this.isPrivateChat = isPrivateChat;
-    this.chatMessages = dataManager.loadChatMessages(chatName);
+    this.newChatMessages = new ArrayList<>();
+    this.adminShortUserName = ""; // private chat got no admin
+    loadChatGroup();
+  }
+
+  ChatGroup(String chatName, boolean isPrivateChat, String adminUserId) {
+    this.chatName = chatName;
+    this.isPrivateChat = isPrivateChat;
+    this.newChatMessages = new ArrayList<>();
+    this.adminShortUserName = adminUserId;
+    loadChatGroup();
+  }
+
+  public void loadChatGroup() {
+    this.storedChatMessages = dataManager.loadChatMessages(isPrivateChat, chatName);
+    this.groupMember = dataManager.getGroupChatMember(isPrivateChat, chatName);
+    this.bannedGroupMember = dataManager.getBannedGroupChatMember(isPrivateChat, chatName);
+  }
+
+  public String getGroupName() {
+    return chatName;
+  }
+
+  public boolean isPrivate() {
+    return isPrivateChat;
   }
 
   public ArrayList<ChatMessage> getMessages() {
-    return chatMessages;
+    ArrayList<ChatMessage> messageList = new ArrayList<>();
+    messageList.addAll(storedChatMessages);
+    messageList.addAll(newChatMessages);
+    return messageList;
   }
 
-  public void addChatMessage(String text) {
-    chatMessages.add(new ChatMessage("Michael", "16.05.2023", ChatMessage.MessageType.MY_MESSAGE, text));
+  public void addChatMessage(String userId, String userName, String text) {
+    if (bannedGroupMember.stream().noneMatch((member -> member.getShortName().equals(userId)))) {
+      newChatMessages.add(new ChatMessage(
+              userId,
+              userName,
+              LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")),
+              ChatMessage.MessageType.MY_MESSAGE,
+              text));
+    }
+  }
+
+  public void storeNewMessages() {
+    dataManager.saveChatMessages(isPrivateChat, chatName, newChatMessages);
+    storedChatMessages.addAll(newChatMessages);
+    newChatMessages.clear();
+  }
+
+  public ObservableList<Member> getGroupMemberAsList() {
+    return groupMember;
+  }
+
+  public ObservableList<Member> getBannedGroupMemberAsList() {
+    return bannedGroupMember;
   }
 
   @Override
@@ -33,12 +89,19 @@ public class ChatGroup {
     return this.chatName + " " + (this.isPrivateChat ? "Privat" : "Gruppen") + " Chat";
   }
 
-  public ArrayList<ChatMessage> searchMessages(String searchPattern) {
-    // TODO
-    return null;
+  public void banOrUnbanUser(Member user, Member loggedInUser) {
+    if (loggedInUser.getShortName().equals(adminShortUserName)) {
+      if (bannedGroupMember.contains(user)) {
+        bannedGroupMember.remove(user);
+        dataManager.removeBannedGroupChatMember(user, chatName);
+      } else {
+        bannedGroupMember.add(user);
+        dataManager.addBannedGroupChatMember(user, chatName);
+      }
+    }
   }
 
-  public String getChatName() {
-    return chatName;
+  public String getChatGroupAdmin() {
+    return adminShortUserName;
   }
 }

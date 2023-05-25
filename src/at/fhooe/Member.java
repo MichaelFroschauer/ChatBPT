@@ -1,5 +1,7 @@
 package at.fhooe;
 
+import java.util.Objects;
+
 public class Member {
   private String shortName;
   private String userName;
@@ -28,5 +30,18 @@ public class Member {
     final StringBuilder sb = new StringBuilder();
     sb.append(shortName).append(" : ").append(userName);
     return sb.toString();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Member member = (Member) o;
+    return Objects.equals(shortName, member.shortName);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(shortName);
   }
 }

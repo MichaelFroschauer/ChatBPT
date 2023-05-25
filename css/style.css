@@ -33,6 +33,15 @@
     -fx-pref-height: 40px;
 }
 
+.textarea {
+    -fx-font-family: "Verdana";
+    -fx-font-size: 14px;
+    -fx-pref-height: 40px;
+    -fx-focus-color: transparent;
+    -fx-border-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
 .button {
     -fx-font-family: "Verdana";
     -fx-font-size: 14px;
@@ -60,12 +69,12 @@
 #chatTitleHbox {
     -fx-alignment: center-left;
     -fx-spacing: 100px;
+    -fx-min-width: 350px;
+    -fx-max-width: 500px;
 }
 
 #chatSelection {
     -fx-background-color: -accent-color-bright;
-    -fx-min-width: 250px;
-    -fx-max-width: 350px;
 }
 
 #chatList {
@@ -76,14 +85,16 @@
 }
 
 #chatListCell {
-    -fx-background-color: -accent-color-bright;
+    -fx-background-color: -accent-color-dark;
     -fx-control-inner-background: -button-background-color;
     -fx-border-color: dimgrey;
+    -fx-focus-color: transparent;
 }
 
 #chatListCell:selected {
     -fx-background-color: -button-background-color;
     -fx-text-fill: black;
+    -fx-focus-color: transparent;
 }
 
 #chatListCell:hover {
